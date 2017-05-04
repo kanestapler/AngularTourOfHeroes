@@ -26,7 +26,7 @@ export class HeroesComponent implements OnInit {
     };
     gotoDetail(): void {
         this.router.navigate(['detail', this.selectedHero.id]);
-    }
+    };
     save(name: string): void {
         name = name.trim();
         if (!name) {
@@ -34,5 +34,14 @@ export class HeroesComponent implements OnInit {
         } else {
             this.heroSerice.addHero(name).then(hero => {this.heroes.push(hero); this.selectedHero = null});
         }
+    };
+    delete(hero: Hero): void {
+        this.heroSerice.removeHero(hero.id)
+        .then(() => {
+            this.heroes = this.heroes.filter(x => x !== hero);
+            if (this.selectedHero === hero) {
+                this.selectedHero = null;
+            }
+        });
     }
 }
